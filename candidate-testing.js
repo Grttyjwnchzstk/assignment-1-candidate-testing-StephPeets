@@ -1,67 +1,67 @@
 const input = require('readline-sync');
 
-// TODO 2: modify your quiz app to ask 5 questions //
-
-// TODO 1.1a: Define candidateName // 
 let candidateName = "";
-
-// TODO 1.2a: Define question, correctAnswer, and candidateAnswer //
-let a;
-let question;
-let correctAnswer;
-let candidateAnswer = [];
-let candidateAnswers = 0;
+let question = "Who was the first American woman in space? ";
 let questions = [
-/*0*/	"Who was the first American woman in space?", 
-/*1*/	"True or false: 5 kilometer == 5000 meters?", 
-/*2*/	"(5 + 3)/2 * 10 = ?", 
-/*3*/	"Given the array [8, 'Orbit', 'Trajectory', 45], what entry is at index 2?", 
-/*4*/	"What is the minimum crew size for the ISS?"];
+  "Who was the first American woman in space? ", 
+  "True or false: 5 kilometer == 5000 meters? ",
+  "(5 + 3)/2 * 10 = ? ", 
+  "Given the array [8, 'Orbit', 'Trajectory', 45], what entry is at index 2? ", 
+  "What is the minimum crew size for the ISS? "];
+let correctAnswer = "Sally Ride";
 let correctAnswers = [
-/*0*/ 	"Sally Ride",
-/*1*/ 	"true",
-/*2*/ 	"40",
-/*3*/ 	"Trajectory",
-/*4*/ 	"3"];
+  "Sally Ride",
+  "true",
+  "40",
+  "Trajectory",
+  "3"];
+let candidateAnswer = "";
+let candidateAnswers = [];
+let consoleTest = "";
 
+// = `Correct Answer: ${correctAnswers[i]}\n`;
 
-	
 function askForName() {
-  // TODO 1.1b: Ask for candidate's name //
-	candidateName = input.question("What is your name?\n")
+	candidateName = input.question("Candidate Name: ")
+	return console.log(`Hi, ${candidateName}. It's Quiz Time!\n`);
 }
 
+
+// 10.4.1.1. Returning a Value states:
+	// Now that we have return statements in our coding toolbox, we will very rarely print anything within a function. If we want to see the value returned by a function then we must print it after calling the function.
+
+/***	Is it possible to do this assignment without using console.log?	***/
+
 function askQuestion() {
-  // TODO 1.2b: Ask candidate the question and assign the response as candidateAnswer //
-	for (a = 0; a < questions.length; a++) {
-		candidateAnswer[a] = input.question(questions[a]);
-		// candidateAnswer[a] = String(candidateAnswer);
-			if (String(candidateAnswer[a]).toLowerCase() == correctAnswers[a].toLowerCase()) {
-			candidateAnswers++;
-			console.log(`${correctAnswers[a]} is correct!\n`)
-		} else {
-			console.log(`Unfortunately, ${candidateAnswer[a]} is wrong. The correct answer is ${correctAnswers[a]}.\n`)
-		}
+	for (let i = 0; i < questions.length; i++) {
+		candidateAnswers[i] = input.question(`${questions[i]}\nYour Answer: `);
+		console.log(`Correct Answer: ${correctAnswers[i]}\n`);
 	}
-console.log(candidateAnswer);
-console.log(candidateAnswers);
+	return;
 }
 
 function gradeQuiz(candidateAnswers) {
-
-  // TODO 1.2c: Let the candidate know if they have answered the question correctly or incorrectly // 
-
-  let grade; // = candidateAnswers/correctAnswers.length*100;
-
+	let grade = 0;
+	for (let i = 0; i < candidateAnswers.length; i++) {
+    if (candidateAnswers[i].toLowerCase() === correctAnswers[i].toLowerCase()) {
+      grade++;
+		}
+  }
+	candidateAnswer = grade;
+ 	grade = grade/correctAnswers.length*100;
+  console.log(`>>> Overall Grade: ${grade}% (${candidateAnswer} of 5 responses correct) <<<`)
+  if (grade >= 80) {
+    console.log(`>>> Status: PASSED <<<`)
+  } else {
+    console.log(`>>> Status: FAILED <<<`)
+  }
   return grade;
-}
+	}
 
 function runProgram() {
   askForName();
-  // TODO 1.1c: Ask for candidate's name //
-  console.log(`Hi, ${candidateName}. It's Quiz Time!`)
   askQuestion();
-  gradeQuiz(this.candidateAnswers);
+  gradeQuiz(candidateAnswers);
 }
 
 // Don't write any code below this line //
@@ -70,10 +70,10 @@ module.exports = {
   candidateName: candidateName,
   question: question,
   correctAnswer: correctAnswer,
-  candidateAnswer: candidateAnswer,
+  candidateAnswers: candidateAnswers,
   questions: questions,
   correctAnswers: correctAnswers,
-  candidateAnswers: candidateAnswers,
+  candidateAnswer: candidateAnswer,
   gradeQuiz: gradeQuiz,
   runProgram: runProgram
 };
